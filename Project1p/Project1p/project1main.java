@@ -1,5 +1,9 @@
 package Project1p;
-
+/*
+ * Matt Wagers
+ * OOP Java (CSCI 3381)
+ * Project 1 -> Netflix Data Back End
+ */
 public class project1main {
 
 	public static void main(String[] args) {
@@ -34,6 +38,8 @@ public class project1main {
 		System.out.println(myWeekList);
 		allData.purge("The Circle");
 		System.out.println(allData.predictiveSuggest("Good Girls"));
+		
+		myList.writeFile("./Project1p/testfile.txt");
 		//System.out.println(allData);
 		//allData.addShow(sw1);
 		//allData.addShow(sw2);

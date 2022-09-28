@@ -14,22 +14,22 @@ public class AllWeeks {
 	private ArrayList<String> purgedShows;
 	private String listName;
 	private String fileName;
-	
-	
+
+
 	public AllWeeks() {
 		shows = new ArrayList<ShowWeek>();
 		purgedShows = new ArrayList<String>();
 		listName = "a name";
 		fileName = null;
 	}
-	
+
 	public AllWeeks(String ln, String fn) {
 		this();
 		listName = ln;
 		fileName = fn;
 		readFile();
 	}
-	
+
 	public void addShow(ShowWeek s) {
 		shows.add(s);
 	}
@@ -41,7 +41,7 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-	
+
 	public void purge(String s) {
 		purgedShows.add(s);
 	}
@@ -59,7 +59,7 @@ public class AllWeeks {
 		}
 		return false;
 	}
-	
+
 	public String ranSuggest() {
 		int index = (int) (Math.random() * shows.size());
 		return shows.get(index).getShow_titles();
@@ -71,7 +71,7 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-	
+
 	public String getShowsinWeek(String s) {
 		String toReturn = "Shows in selected week:\n";
 		for(ShowWeek sw : shows) {
@@ -81,7 +81,7 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-	
+
 	private void readFile () {
 		BufferedReader lineReader = null;
 		try {
@@ -96,8 +96,8 @@ public class AllWeeks {
 				String weekly_hours_viewed = lineReader.readLine();
 				String cumulative_weeks_in_top10 = lineReader.readLine();
 				addShow(new ShowWeek(week, category, weekly_rank, show_titles, season_title, weekly_hours_viewed, cumulative_weeks_in_top10));
-					
-				}
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("there was a problem with the file reader, try different read type.");
@@ -111,9 +111,9 @@ public class AllWeeks {
 					String season_title = lineReader.readLine();
 					String weekly_hours_viewed = lineReader.readLine();
 					String cumulative_weeks_in_top10 = lineReader.readLine();
-					//addShow(new ShowWeek(week, category, weekly_rank, show_titles, season_title, weekly_hours_viewed, cumulative_weeks_in_top10));
-			
-					}
+					addShow(new ShowWeek(week, category, weekly_rank, show_titles, season_title, weekly_hours_viewed, cumulative_weeks_in_top10));
+
+				}
 			} catch (Exception e2) {
 				System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
 			} finally {
@@ -133,7 +133,7 @@ public class AllWeeks {
 				}
 		}
 	} // end of readFile method	
-	
+
 	public void writeFile () {
 		// overloaded method: this calls doWrite with file used to read data
 		// use this for saving data between runs
@@ -145,7 +145,7 @@ public class AllWeeks {
 		// use this for testing write
 		doWrite(altFileName);		
 	}// end of writeFile method
-	
+
 	private void doWrite(String fn) {
 		// this method writes all of the data in the persons array to a file
 		try
@@ -153,25 +153,17 @@ public class AllWeeks {
 
 			FileWriter fw = new FileWriter(fn);
 			BufferedWriter myOutfile = new BufferedWriter(fw);			
-			
-			for (int i = 0; i < size; i++) {
-				Person person = people[i];
-				if (person instanceof Student) {
-					myOutfile.write ("student\n");
-					myOutfile.write (person.getName()+"\n");
-					myOutfile.write (person.getId()+"\n");
-					myOutfile.write (((Student) person).getGpa()+"\n");
-				}
-				else if (person instanceof Instructor) {
-					myOutfile.write ("instructor\n");
-					myOutfile.write (person.getName()+"\n");
-					myOutfile.write (person.getId()+"\n");
-					myOutfile.write (((Instructor) person).getEmail()+"\n");
-				}	
-				else {
-					System.err.println("error in array, instance type not found");
-				}
+
+			for(ShowWeek sw : shows) {
+				myOutfile.write (sw.getWeek() + "\n");
+				myOutfile.write (sw.getCategory() + "\n");
+				myOutfile.write (sw.getWeekly_rank() + "\n");
+				myOutfile.write (sw.getShow_titles() + "\n");
+				myOutfile.write (sw.getSeason_title() + "\n");
+				myOutfile.write (sw.getWeekly_hours_viewed() + "\n");
+				myOutfile.write (sw.getCumulative_weeks_in_top10() + "\n");
 			}
+
 			myOutfile.flush();
 			myOutfile.close();
 		}
