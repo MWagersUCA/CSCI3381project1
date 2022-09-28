@@ -11,7 +11,7 @@ public class ShowWeek {
 	private String weekly_hours_viewed; 
 	private String cumulative_weeks_in_top10;
 	
-	
+	// Default Constructor
 	public ShowWeek() {
 		week = "none";
 		category = "none";
@@ -22,7 +22,7 @@ public class ShowWeek {
 		cumulative_weeks_in_top10 = "none";
 	}
 	
-	
+	// Overloaded Constructor
 	public ShowWeek(String week, String category, String weekly_rank, String show_titles, String season_title,
 			String weekly_hours_viewed, String cumulative_weeks_in_top10) {
 		super();
@@ -34,7 +34,7 @@ public class ShowWeek {
 		this.weekly_hours_viewed = weekly_hours_viewed;
 		this.cumulative_weeks_in_top10 = cumulative_weeks_in_top10;
 	}
-	
+	// Getters and Setters
 	public String getWeek() {
 		return week;
 	}
@@ -77,9 +77,11 @@ public class ShowWeek {
 	public void setCumulative_weeks_in_top10(String cumulative_weeks_in_top10) {
 		this.cumulative_weeks_in_top10 = cumulative_weeks_in_top10;
 	}
+	// toString for displaying data
 	public String toString() {
 		return week + " " +category+ " " +weekly_rank+ " " +show_titles+ " " +season_title+ " " +weekly_hours_viewed+ " " +cumulative_weeks_in_top10;
 	}
+	// Comparison method, compares caller to the parameter
 	public boolean equals(Object o) {
 		ShowWeek sw = (ShowWeek)o;
 		String compare = getWeek() + getShow_titles();

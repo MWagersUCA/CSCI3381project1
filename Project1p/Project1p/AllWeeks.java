@@ -15,25 +15,27 @@ public class AllWeeks {
 	private String listName;
 	private String fileName;
 
-
+    // Default Constructor
+	// shows and purgedShows are unique to each other
+	// custom show list and purgedShows list is separated from allData list
 	public AllWeeks() {
 		shows = new ArrayList<ShowWeek>();
 		purgedShows = new ArrayList<String>();
 		listName = "a name";
 		fileName = null;
 	}
-
+    // Overloaded Constructor for reading from file
 	public AllWeeks(String ln, String fn) {
 		this();
 		listName = ln;
 		fileName = fn;
 		readFile();
 	}
-
+    // Add specified show to ArrayList
 	public void addShow(ShowWeek s) {
 		shows.add(s);
 	}
-
+    // toString for displaying Show data
 	public String toString() {
 		String toReturn = listName + ":\n";
 		for(ShowWeek s: shows) {
@@ -41,10 +43,11 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-
+    // Add specified show name to ArrayList
 	public void purge(String s) {
 		purgedShows.add(s);
 	}
+	// Remove specified show name from ArrayList
 	public void unPurge(String s) {
 		if(purgedShows.contains(s)) {
 			purgedShows.remove(s);
@@ -53,17 +56,24 @@ public class AllWeeks {
 			System.out.println("Unable to locate:  " + s);
 		}
 	}
+	// Returns true is a show is purged
+	// If a show is purged, it will not be recommended
 	public boolean isPurged(String s) {
 		if(purgedShows.contains(s)) {
 			return true;
 		}
 		return false;
 	}
-
+    // Suggests the name of a random, unpurged show
 	public String ranSuggest() {
-		int index = (int) (Math.random() * shows.size());
-		return shows.get(index).getShow_titles();
+		String toReturn = shows.get((int) (Math.random() * shows.size())).getShow_titles();
+		if(isPurged(toReturn)) {
+			ranSuggest();
+		}
+		return toReturn;
 	}
+	// Suggests the name of a random, unpurged show
+	// Parameter is given watched show
 	public String predictiveSuggest(String s) {
 		String toReturn = ranSuggest();
 		while(toReturn == s || isPurged(toReturn)) {
@@ -71,7 +81,7 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-
+    // Returns a list of shows within a given date(week)
 	public String getShowsinWeek(String s) {
 		String toReturn = "Shows in selected week:\n";
 		for(ShowWeek sw : shows) {
@@ -81,14 +91,14 @@ public class AllWeeks {
 		}
 		return toReturn;
 	}
-
+    // Read from file
 	private void readFile () {
 		BufferedReader lineReader = null;
 		try {
 			FileReader fr = new FileReader(fileName);
 			lineReader = new BufferedReader(fr);
 			String week = null;
-			while ((week = lineReader.readLine())!=null) {
+			while ((week = lineReader.readLine())!=null) { // Assignment calls the first read?
 				String category = lineReader.readLine();
 				String weekly_rank = lineReader.readLine();
 				String show_titles = lineReader.readLine();
@@ -104,7 +114,7 @@ public class AllWeeks {
 			try {
 				lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
 				String week = null;
-				while ((week = lineReader.readLine())!=null) {
+				while ((week = lineReader.readLine())!=null) { // Assignment calls the first read?
 					String category = lineReader.readLine();
 					String weekly_rank = lineReader.readLine();
 					String show_titles = lineReader.readLine();
@@ -150,10 +160,8 @@ public class AllWeeks {
 		// this method writes all of the data in the persons array to a file
 		try
 		{
-
 			FileWriter fw = new FileWriter(fn);
 			BufferedWriter myOutfile = new BufferedWriter(fw);			
-
 			for(ShowWeek sw : shows) {
 				myOutfile.write (sw.getWeek() + "\n");
 				myOutfile.write (sw.getCategory() + "\n");
@@ -163,7 +171,6 @@ public class AllWeeks {
 				myOutfile.write (sw.getWeekly_hours_viewed() + "\n");
 				myOutfile.write (sw.getCumulative_weeks_in_top10() + "\n");
 			}
-
 			myOutfile.flush();
 			myOutfile.close();
 		}
@@ -172,5 +179,4 @@ public class AllWeeks {
 			System.err.println("Didn't save to " + fn);
 		}
 	}	
-
 }
